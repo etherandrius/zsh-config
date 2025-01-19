@@ -2,22 +2,44 @@
 export ZSH="$ZDOTDIR/ohmyzsh"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="simple"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode)
+plugins=(vi-mode shrink-path git-prompt)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+#
+
+INSERT_MODE_INDICATOR="%{$fg[magenta]%}❯%{$reset_color%}%{$fg[blue]%}❯❯%{$reset_color%} "
+MODE_INDICATOR="%{$fg[blue]%}❮❮%{$reset_color%}%{$fg[magenta]%}❮%{$reset_color%} "
+
+PROMPT="%B\$(shrink_path -l -t) \$(vi_mode_prompt_info)"
+
+RPROMPT='%(?..☹ %?) %{$fg_bold[blue]%}$(git_prompt_info) $(git_prompt_status)%{$reset_color%} [%*]%{$reset_color%}'
+
+ZSH_THEME_GIT_PROMPT_CACHE="anyvaluetoenable"
+ZSH_THEME_GIT_PROMPT_PREFIX=""
+ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_DIRTY=""
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[blue]%}+"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg_bold[blue]%}✱"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$fg_bold[blue]%}✖"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg_bold[blue]%}🠞"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[blue]%}═"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[blue]%}⎵"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[red]%}⬇ "
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[magenta]%}⬆ "
+
 export EDITOR='nvim'
+
+# No need to press enter twice when auto-completing
+bindkey -M menuselect '^M' .accept-line
 
 bindkey -v
 
