@@ -49,10 +49,6 @@ export XDG_CONFIG_HOME=~/.config
 
 # CD setup
 # aag Sun Jan 19 03:21:14 PM GMT 2025
-cdf () {
-    dir=$(find ~/Projects/ -maxdepth 2 -type d -not -path '*/.*' | sed 's/\/home\/aag\/Projects\///g' | fzf --tiebreak=end --height=10)
-    cd "/home/aag/Projects/$dir"
-}
 cdroot () {
     gitroot=$(git rev-parse --show-toplevel)
     if [ ! -z $gitroot ]
@@ -66,3 +62,116 @@ alias cdd="cd .."
 # aag Sun Jan 19 03:35:07 PM GMT 2025
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# Alias {{{
+
+alias vim="/opt/homebrew/bin/nvim"
+alias neovim="/opt/homebrew/bin/nvim"
+
+#add GOPATH
+export GOPATH="$HOME/Projects/go"
+# add go to PATH
+export PATH="$PATH:$GOPATH/bin"
+# add ruby to PATH
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+# export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
+# export PATH="/usr/local/opt/go@1.14/bin:$PATH"
+export PATH="$PATH:/usr/local/opt"
+# export PATH="/usr/local/Cellar:$PATH"
+#eval "$(rbenv init -)"
+
+export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.12/libexec/openjdk.jdk/Contents/Home"
+# export JAVA_HOME=`/usr/libexec/java_home -v 19`
+# export JAVA_HOME="/opt/homebrew/Cellar/openjdk@21/21.0.4/libexec/openjdk.jdk/Contents/Home"
+# export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.7/libexec/openjdk.jdk/Contents/Home"
+# export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.6/libexec/openjdk.jdk/Contents/Home"
+
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
+
+# export paths
+export P=~/Projects
+export D=~/Projects/go/src/github.palantir.build/deployability
+
+# bat
+alias bat='bat --theme=GitHub'
+
+# ./godelw alias
+alias gow='./godelw'
+# ./gradlew alias
+alias grw='./gradlew'
+
+# git
+alias gits='git s'
+alias gita='git a'
+alias gitd='git d'
+alias gitc='git c'
+alias gitp='git p'
+
+# ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias sl='ls -CF'
+
+# }}}
+# {{{ My Funcs
+
+qload() {
+    uqc load $1 | tee /dev/tty | pbcopy
+}
+qsave() {
+    uqc save $1
+}
+
+alert() {
+    osascript -e 'display notification "alert"'
+}
+
+cdfold () {
+	if [ -z $1 ]
+	then
+		dir=$(find $P/java/foundry -maxdepth 1 -type d | sed 's/\/Users\/agrabauskas\/Projects\/java\///g' | fzf --tiebreak=end --height=10)
+        dir="/Users/agrabauskas/Projects/java/$dir"
+		if [ ! -z $dir ]
+		then
+			cd $dir
+		fi
+	elif [[ $1 == "ua" ]]
+	then
+		cd /Users/agrabauskas/Projects/java/foundry/usage-aggregator
+	elif [[ $1 == "fit" ]]
+	then
+		cd /Users/agrabauskas/Projects/java/foundry/foundry-internal-tables
+	elif [[ $1 == "rpm" ]]
+	then
+		cd /Users/agrabauskas/Projects/java/foundry/resource-policy-manager
+	elif [[ $1 == "rmp" ]]
+	then
+		cd /Users/agrabauskas/Projects/java/foundry/resource-policy-manager
+	elif [[ $1 == "sr" ]]
+	then
+		cd /Users/agrabauskas/Projects/java/foundry/spark-reporter
+	fi
+}
+
+cdf () {
+	if [ -z $1 ]
+	then
+		dir=$(find /Volumes/git/vscode-team/ -maxdepth 1 -type d | sed 's/\/Volumes\/git\/vscode-team\///g' | fzf --tiebreak=end --height=10)
+        dir="/Volumes/git/vscode-team/$dir"
+		if [ ! -z $dir ]
+		then
+			cd $dir
+		fi
+	elif [[ $1 == "m" ]]
+	then
+		cd /Volumes/git/vscode-team/maestro/
+	fi
+}
+
+# }}}
+
+source ~/.cargo/env
+
+
+# vim: set foldmethod=marker: set foldlevel=1
