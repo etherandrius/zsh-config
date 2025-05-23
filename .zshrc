@@ -77,12 +77,14 @@ export PATH="$PATH:$GOPATH/bin"
 # export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
 # export PATH="/usr/local/opt/go@1.14/bin:$PATH"
 export PATH="$PATH:/usr/local/opt"
+export PATH="$PATH:/Applications/Windsurf.app/Contents/Resources/app/bin"
 # export PATH="/usr/local/Cellar:$PATH"
 #eval "$(rbenv init -)"
 
-export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.12/libexec/openjdk.jdk/Contents/Home"
+# export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.13/libexec/openjdk.jdk/Contents/Home"
 # export JAVA_HOME=`/usr/libexec/java_home -v 19`
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@21/21.0.4/libexec/openjdk.jdk/Contents/Home"
+export JAVA_HOME="/opt/homebrew/Cellar/openjdk@21/21.0.5/libexec/openjdk.jdk/Contents/Home"
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.7/libexec/openjdk.jdk/Contents/Home"
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.6/libexec/openjdk.jdk/Contents/Home"
 
@@ -155,23 +157,30 @@ cdfold () {
 }
 
 cdf () {
-	if [ -z $1 ]
-	then
-		dir=$(find /Volumes/git/vscode-team/ -maxdepth 1 -type d | sed 's/\/Volumes\/git\/vscode-team\///g' | fzf --tiebreak=end --height=10)
-        dir="/Volumes/git/vscode-team/$dir"
-		if [ ! -z $dir ]
-		then
-			cd $dir
-		fi
-	elif [[ $1 == "m" ]]
-	then
-		cd /Volumes/git/vscode-team/maestro/
-	fi
+    dir=$(find /Volumes/git/vscode-team/ /Volumes/git/foundry-stemma-repos/ -maxdepth 1 -type d | sed 's/\/Volumes\/git\///g' | fzf --tiebreak=end --height=10)
+    rcode=$?
+    dir="/Volumes/git/$dir"
+    if [[ $rcode -eq 0 ]]
+    then
+        cd $dir
+    fi
 }
 
 # }}}
 
 source ~/.cargo/env
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 
 # vim: set foldmethod=marker: set foldlevel=1
+
+# pnpm
+export PNPM_HOME="/Users/agrabauskas/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
