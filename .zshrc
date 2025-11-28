@@ -8,12 +8,11 @@ export ZSH="$ZDOTDIR/ohmyzsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(vi-mode shrink-path git-prompt)
+plugins=(vi-mode shrink-path)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-#
 
 INSERT_MODE_INDICATOR="%{$fg[magenta]%}❯%{$reset_color%}%{$fg[blue]%}❯❯%{$reset_color%} "
 MODE_INDICATOR="%{$fg[blue]%}❮❮%{$reset_color%}%{$fg[magenta]%}❮%{$reset_color%} "
@@ -21,7 +20,6 @@ MODE_INDICATOR="%{$fg[blue]%}❮❮%{$reset_color%}%{$fg[magenta]%}❮%{$reset_c
 PROMPT="%B\$(shrink_path -l -t) \$(vi_mode_prompt_info)"
 
 RPROMPT='%(?..☹ %?) %{$fg_bold[blue]%}$(git_prompt_info) $(git_prompt_status)%{$reset_color%} [%*]%{$reset_color%}'
-
 
 ZSH_THEME_GIT_PROMPT_CACHE="anyvaluetoenable"
 ZSH_THEME_GIT_PROMPT_PREFIX=""
