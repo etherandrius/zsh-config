@@ -22,6 +22,7 @@ PROMPT="%B\$(shrink_path -l -t) \$(vi_mode_prompt_info)"
 
 RPROMPT='%(?..☹ %?) %{$fg_bold[blue]%}$(git_prompt_info) $(git_prompt_status)%{$reset_color%} [%*]%{$reset_color%}'
 
+
 ZSH_THEME_GIT_PROMPT_CACHE="anyvaluetoenable"
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
@@ -171,8 +172,12 @@ cdf () {
 source ~/.cargo/env
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+nvm() {
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+  nvm $@
+}
+
 
 
 # vim: set foldmethod=marker: set foldlevel=1
