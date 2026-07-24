@@ -84,8 +84,12 @@ export PATH="$PATH:/Applications/Windsurf.app/Contents/Resources/app/bin"
 # export JAVA_HOME=`/usr/libexec/java_home -v 19`
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@21/21.0.4/libexec/openjdk.jdk/Contents/Home"
 export JAVA_HOME="/opt/homebrew/Cellar/openjdk@21/21.0.5/libexec/openjdk.jdk/Contents/Home"
+# export JAVA_HOME="/opt/homebrew/opt/openjdk@25/"
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.7/libexec/openjdk.jdk/Contents/Home"
 # export JAVA_HOME="/opt/homebrew/Cellar/openjdk@17/17.0.6/libexec/openjdk.jdk/Contents/Home"
+
+
+export PATH="$JAVA_HOME/bin:$PATH"
 
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 
@@ -155,10 +159,30 @@ cdfold () {
 	fi
 }
 
-cdf () {
-    dir=$(find /Volumes/git/vscode-team/ /Volumes/git/foundry-stemma-repos/ -maxdepth 1 -type d | sed 's/\/Volumes\/git\///g' | fzf --tiebreak=end --height=10)
+cdff () {
+    dir=$((find $FEATURES_DIR -maxdepth 2 -type d) | sed "s#$FEATURES_DIR##g" | fzf --tiebreak=end --height=10)
     rcode=$?
-    dir="/Volumes/git/$dir"
+    dir="$FEATURES_DIR/$dir"
+    if [[ $rcode -eq 0 ]]
+    then
+        cd $dir
+    fi
+}
+
+cdf () {
+    local deep=(vscode-team features foundry-stemma-repos)
+    dir=$((
+            for d in "$PROJECT_DIR"/*(/N); do
+                if (( ${deep[(Ie)${d:t}]} )); then
+                    find "$d" -maxdepth 1 -type d
+                else
+                    echo "$d"
+                fi
+            done
+            echo "$PROJECT_DIR/vscode-team/foundry-mcp/@palantir/mcp"
+        ) | sed "s#$PROJECT_DIR##g" | fzf --tiebreak=end --height=10)
+    rcode=$?
+    dir="$PROJECT_DIR/$dir"
     if [[ $rcode -eq 0 ]]
     then
         cd $dir
@@ -187,3 +211,14 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# # Wrap codex to invoke claude tracker register/unregister
+# codex() {
+#     ~/.config/tmux/plugins/claude_tracker/bin/claude-tracker register
+#     ~/.config/tmux/plugins/claude_tracker/bin/claude-tracker processing
+#     local exit_code
+#     command codex "$@"
+#     exit_code=$?
+#     ~/.config/tmux/plugins/claude_tracker/bin/claude-tracker unregister
+#     return $exit_code
+# }
